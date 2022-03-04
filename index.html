@@ -4,14 +4,12 @@
 		<link rel = "icon" href = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQudx87gpctKJdgDyq5DpVlb12fI3_7XgbfXw&usqp=CAU">
 		<style>
 			canvas.GameWindow {
-				display : block;
-				margin-left : auto;
-				margin-right : auto;
+				margin-left : 0px;
 			}
 		</style>
 	</head>
 	<body>
-		<canvas width = 600 height = 500 class = GameWindow>Sorry but the canvas is not taken by your web browser</canvas>
+		<canvas width = 600 height = 500 >Sorry but the canvas is not taken by your web browser</canvas>
 		
 		<script>
 			window.onload = init;
@@ -20,6 +18,7 @@
 			doggy.y = 250;
 			doggy.increment_x = 0.5;
 			doggy.increment_y = 0.5;
+			canvas_increment_x = 1
 			
 			//create function
 			function drawAnImage(positionX,positionY,width,height,image) {
@@ -34,6 +33,8 @@
 				drawAnImage(doggy.x,doggy.y,100,100,image[0]);
 				doggy.x+=doggy.increment_x
 				doggy.y+=doggy.increment_y
+				canvas.style.marginLeft = doggy.x+"px";
+				
 				if (doggy.x+100 >= canvas.width) {
 					doggy.increment_x = -0.5
 				};
@@ -45,6 +46,12 @@
 				};
 				if (doggy.y <= 0) {
 					doggy.increment_y = 0.5
+				};
+				if (canvas.style.margin.left >= 76) {
+					canvas_increment_x = -1
+				};
+				if (canvas.style.margin.left <= 0) {
+					canvas_increment_x = 1
 				};
 				
 				window.requestAnimationFrame(function () {gameLoop(image);});
