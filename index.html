@@ -1,0 +1,81 @@
+<html>
+	<head>
+		<title>dog food</title>
+		<link rel = "icon" href = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQudx87gpctKJdgDyq5DpVlb12fI3_7XgbfXw&usqp=CAU">
+		<style>
+			canvas.GameWindow {
+				display : block;
+				margin-left : auto;
+				margin-right : auto;
+			}
+		</style>
+	</head>
+	<body>
+		<canvas width = 600 height = 500 class = GameWindow>Sorry but the canvas is not taken by your web browser</canvas>
+		
+		<script>
+			window.onload = init;
+			const doggy = new Object();
+			doggy.x = 300;
+			doggy.y = 250;
+			doggy.increment_x = 0.5;
+			doggy.increment_y = 0.5;
+			
+			//create function
+			function drawAnImage(positionX,positionY,width,height,image) {
+				var canvas = document.querySelector('canvas');
+				var ctx = canvas.getContext('2d');
+				ctx.drawImage(image, positionX, positionY, width, height);
+			};
+			
+			function gameLoop(imageLoad) {
+				var canvas = document.querySelector('canvas');
+				image = imageLoad
+				drawAnImage(doggy.x,doggy.y,100,100,image[0]);
+				doggy.x+=doggy.increment_x
+				doggy.y+=doggy.increment_y
+				if (doggy.x+100 >= canvas.width) {
+					doggy.increment_x = -0.5
+				};
+				if (doggy.y+100 >= canvas.height) {
+					doggy.increment_y = -0.5
+				};
+				if (doggy.x <= 0) {
+					doggy.increment_x = 0.5
+				};
+				if (doggy.y <= 0) {
+					doggy.increment_y = 0.5
+				};
+				
+				window.requestAnimationFrame(function () {gameLoop(image);});
+			};
+			
+			//load image and initialize value
+			function init() {
+				var canvas = document.querySelector('canvas');
+				var ctx = canvas.getContext('2d');
+				
+				//initialize canvas
+				//ctx.fillStyle = 'black';
+				//ctx.fillRect(0, 0, 600, 350);
+				
+				const imageToLoad = [
+					"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQudx87gpctKJdgDyq5DpVlb12fI3_7XgbfXw&usqp=CAU",
+				];
+				var totalImage = imageToLoad.length;
+				let imageLoad = [];
+				
+				for (var i = 0;i<totalImage;i++) {
+					var img = new Image();
+					img.src = imageToLoad[i];
+					imageLoad.push(img);
+					img.onload = function() {
+						if (i == totalImage) {
+							gameLoop(imageLoad);
+						};
+					};	
+				};
+			};
+		</script>
+	</body>
+</html>
